@@ -6,3 +6,5 @@ tqdm
 matplotlib
 pydantic
 fastapi
+transformers
+uvicorn

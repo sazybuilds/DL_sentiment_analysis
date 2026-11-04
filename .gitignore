@@ -1,7 +1,14 @@
 venv
+__pycache__/
+
+*.py[cod]
 
 codebase_audit_and_improvements.md
 
 
 transformers_notebook_explained.md
 
+
+__pycache__/
+*.py[cod]
+DL_sentiment_analysis/src/model_dir/transformer.pt

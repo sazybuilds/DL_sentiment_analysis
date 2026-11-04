@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Try a local BERT model that classifies movie reviews as positive or negative."
+    >
+    <title>Reel Feel | Movie review sentiment</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Reel Feel home">
+          <span class="brand-mark" aria-hidden="true">R</span>
+          <span>reel<span class="brand-light">feel</span></span>
+        </a>
+        <div class="local-badge">
+          <span class="local-dot" aria-hidden="true"></span>
+          Runs on your machine
+        </div>
+      </header>
+
+      <main>
+        <section class="intro" aria-labelledby="page-title">
+          <p class="eyebrow">A little insight into a big feeling</p>
+          <h1 id="page-title">What did you <em>really</em> think?</h1>
+          <p class="intro-copy">
+            Drop in a movie review. Our fine-tuned BERT model will read between
+            the lines and estimate whether it feels positive or negative.
+          </p>
+        </section>
+
+        <section class="analyzer-card" aria-labelledby="review-heading">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">Your turn</p>
+              <h2 id="review-heading">Paste a review</h2>
+            </div>
+            <span class="step-number" aria-hidden="true">01 / 01</span>
+          </div>
+
+          <div class="examples" aria-label="Example reviews">
+            <span class="examples-label">Try a sample</span>
+            <button
+              class="sample-button"
+              type="button"
+              data-review="A beautifully acted story with a thoughtful script. I loved every minute and would happily watch it again."
+            >A lovely surprise</button>
+            <button
+              class="sample-button"
+              type="button"
+              data-review="The story was painfully dull, the characters were flat, and I kept checking how much time was left."
+            >Not for me</button>
+          </div>
+
+          <form id="review-form">
+            <label class="sr-only" for="review-text">Movie review</label>
+            <textarea
+              id="review-text"
+              name="text"
+              maxlength="10000"
+              placeholder="The performances were wonderful, but the story..."
+              required
+            ></textarea>
+            <div class="input-footer">
+              <span id="character-count">0 / 10,000</span>
+              <span>Long reviews are shortened to fit the model.</span>
+            </div>
+            <div class="form-actions">
+              <button class="clear-button" id="clear-button" type="button">Clear</button>
+              <button class="analyze-button" id="analyze-button" type="submit">
+                <span>Analyze review</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+          </form>
+
+          <div class="error-message" id="error-message" role="alert" hidden></div>
+
+          <section class="result-card" id="result-card" aria-live="polite" hidden>
+            <div class="result-topline">
+              <p class="eyebrow">The model's read</p>
+              <span class="result-icon" id="result-icon" aria-hidden="true"></span>
+            </div>
+            <div class="result-main">
+              <div>
+                <h2 id="result-label"></h2>
+                <p id="result-description"></p>
+              </div>
+              <div class="confidence-value">
+                <strong id="confidence-value"></strong>
+                <span>confidence</span>
+              </div>
+            </div>
+            <div
+              class="confidence-track"
+              id="confidence-track"
+              role="progressbar"
+              aria-label="Prediction confidence"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+            >
+              <span id="confidence-bar"></span>
+            </div>
+            <p class="confidence-note">
+              Confidence is the model's softmax score, not a guarantee.
+            </p>
+          </section>
+        </section>
+
+        <section class="model-note" aria-label="About the model">
+          <div class="model-note-icon" aria-hidden="true">B</div>
+          <p>
+            <strong>Under the hood</strong>
+            BERT reads words in context, then a small trained classifier makes
+            the final positive-or-negative call.
+          </p>
+          <a href="/docs" target="_blank" rel="noreferrer">Explore the API <span aria-hidden="true">&nearr;</span></a>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Built for curious minds.</span>
+        <div class="model-status" id="model-status" role="status" aria-live="polite">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-label">Checking local model...</span>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
