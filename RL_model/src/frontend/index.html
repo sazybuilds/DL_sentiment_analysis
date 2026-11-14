@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Watch a Q-learning agent learn to navigate a grid world."
+    >
+    <title>Q-Learning | Grid World</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Grid World home">
+          <span class="brand-icon" aria-hidden="true">Q</span>
+          <span>grid<span class="brand-light">world</span></span>
+        </a>
+        <span class="local-badge"><span class="status-dot"></span> Learning locally</span>
+      </header>
+
+      <section class="intro">
+        <p class="eyebrow">Reinforcement learning · Q-learning</p>
+        <h1>Learning by <span>doing.</span></h1>
+        <p class="intro-copy">
+          An agent explores a tiny world, learns from rewards and setbacks, and
+          gradually figures out how to reach the goal.
+        </p>
+      </section>
+
+      <section class="dashboard" aria-label="Live reinforcement learning demo">
+        <div class="world-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">The environment</p>
+              <h2>Grid world</h2>
+            </div>
+            <div class="legend" aria-label="Grid legend">
+              <span><i class="legend-agent"></i>Agent</span>
+              <span><i class="legend-goal"></i>Goal</span>
+              <span><i class="legend-hazard"></i>Hazard</span>
+            </div>
+          </div>
+
+          <div class="world-layout">
+            <div id="grid" class="grid" role="img" aria-label="Agent's grid world"></div>
+            <aside class="q-panel" aria-live="polite">
+              <p class="eyebrow">Current state</p>
+              <strong id="state-coordinate">Row 6 · Col 1</strong>
+              <div id="q-values" class="q-values"></div>
+              <p class="q-caption">Q-value per action</p>
+            </aside>
+          </div>
+
+          <div class="controls">
+            <button id="run-button" class="button button-primary" type="button">
+              <span id="run-icon" aria-hidden="true">▶</span>
+              <span id="run-label">Start learning</span>
+            </button>
+            <button id="step-button" class="button button-secondary" type="button">Step once</button>
+            <button id="reset-button" class="button button-quiet" type="button">Reset</button>
+            <label class="speed-control" for="speed">
+              <span>Speed</span>
+              <input id="speed" type="range" min="60" max="700" step="20" value="260">
+              <span id="speed-label">Normal</span>
+            </label>
+          </div>
+          <p id="status-message" class="status-message" role="status" aria-live="polite">
+            Press start to watch the agent learn.
+          </p>
+        </div>
+
+        <aside class="stats-column">
+          <section class="stats-card">
+            <p class="eyebrow">Live training</p>
+            <div class="stat-grid">
+              <div class="stat"><span>Episode</span><strong id="episode">1</strong></div>
+              <div class="stat"><span>Steps</span><strong id="steps">0</strong></div>
+              <div class="stat"><span>Last reward</span><strong id="reward">—</strong></div>
+              <div class="stat"><span>Exploration</span><strong id="epsilon">30%</strong></div>
+            </div>
+          </section>
+          <section class="chart-card">
+            <div class="section-heading compact">
+              <div>
+                <p class="eyebrow">Feedback</p>
+                <h2>Episode reward</h2>
+              </div>
+              <span class="chart-caption">Recent episodes</span>
+            </div>
+            <svg id="reward-chart" viewBox="0 0 360 112" role="img" aria-label="Reward per episode chart">
+              <line x1="0" y1="56" x2="360" y2="56" class="chart-zero"></line>
+              <polyline id="reward-line" points="" class="chart-line"></polyline>
+            </svg>
+            <div class="chart-legend"><span>Reward</span><span id="episode-count">No episodes yet</span></div>
+          </section>
+          <section class="how-card">
+            <p class="eyebrow">What to watch</p>
+            <p>The arrows show the best action the agent currently knows for each cell. Hazard and goal cells end an episode.</p>
+            <div class="exploration-note"><span>↗</span><span><strong>Explore</strong> random moves<br><strong>Exploit</strong> what it learned</span></div>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>Small grid. Real Q-learning.</span>
+        <a href="/docs" target="_blank" rel="noreferrer">API docs <span aria-hidden="true">↗</span></a>
+      </footer>
+    </main>
+  </body>
+</html>
