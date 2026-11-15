@@ -1,6 +1,14 @@
-# Reel Feel
+# Reel Feel and a Q-Learning Demo
 
-### A local movie-review sentiment analyzer
+This repository contains two small machine-learning demos that run locally:
+
+- [Reel Feel](#reel-feel-sentiment-analysis) classifies movie reviews with a fine-tuned BERT model.
+- [Q-Learning Grid World](#q-learning-grid-world-reinforcement-learning) demonstrates reinforcement learning in a live, interactive grid.
+
+Both apps use FastAPI and a plain HTML, CSS, and JavaScript frontend. Run one
+server at a time; each uses port `8000` by default.
+
+## Reel Feel: sentiment analysis
 
 Reel Feel is a small, locally hosted web app for trying a deep-learning sentiment classifier. Paste a review, and a fine-tuned BERT model predicts whether it is **positive** or **negative** and returns its confidence score.
 
@@ -8,7 +16,7 @@ The interface uses plain HTML, CSS, and JavaScript. FastAPI serves both the page
 
 > **Before the first prediction:** this repository does not include trained model weights. Train the model once to create `DL_sentiment_analysis/src/model_dir/transformer.pt`. The first training run downloads the IMDb dataset and BERT's pretrained weights.
 
-## What the model does
+### What the model does
 
 1. The BERT tokenizer turns review text into token IDs.
 2. The pretrained `bert-base-uncased` encoder reads the tokens in context.
@@ -17,7 +25,7 @@ The interface uses plain HTML, CSS, and JavaScript. FastAPI serves both the page
 
 The model was designed for IMDb-style movie reviews. Its confidence score is not a guarantee, and the model may be wrong on sarcasm, mixed opinions, or text outside that domain. For a fuller explanation, see [flexisaf_submit_2.md](./flexisaf_submit_2.md).
 
-## Requirements
+### Requirements
 
 - Python 3.10 or newer
 - A working internet connection for the first training run and the first model load
@@ -41,7 +49,7 @@ If PowerShell prevents virtual-environment activation, use the interpreter direc
 
 PyTorch installation can depend on your operating system and GPU. If the default `torch` install is not suitable for your machine, install the matching PyTorch build using the instructions on the official PyTorch website, then install the remaining packages from `requirements.txt`.
 
-## Train the model
+### Train the model
 
 Run this command from the repository root:
 
@@ -71,7 +79,7 @@ python -m DL_sentiment_analysis.src.scripts.training --max-train-samples 0 --max
 
 Sample limits of `0` mean use the full corresponding split. Use a smaller `--batch-size` if a GPU runs out of memory; full BERT fine-tuning is much more demanding than the default frozen-encoder run.
 
-## Run the application
+### Run the application
 
 From the repository root, start the FastAPI server:
 
@@ -92,7 +100,7 @@ Useful endpoints:
 
 Model weights are loaded the first time a prediction is requested. If the checkpoint is missing, the UI and API still start; the health status explains that training is required, and a prediction request returns HTTP `503` with the same guidance.
 
-### Example API request
+#### Example API request
 
 ```powershell
 Invoke-RestMethod `
@@ -114,6 +122,45 @@ Example response:
 
 `probability` is the winning class's softmax score, between `0` and `1`. The model truncates inputs to BERT's 512-token limit, and the API accepts at most 10,000 characters per review.
 
+## Q-Learning Grid World: reinforcement learning
+
+The second model is a lightweight tabular Q-learning agent. It learns by
+trying actions in a small grid, receiving rewards for reaching the goal (and
+penalties for hazards), and updating its action-value estimates. The browser
+dashboard animates the agent, displays its current policy and Q-values, and
+plots recent episode rewards.
+
+No dataset, pretrained weights, GPU, or external service is needed. The
+learning algorithm uses Python's standard library; the app uses the FastAPI
+and Uvicorn dependencies already installed for Reel Feel.
+
+From the repository root, activate the project's environment if it is not
+already active, then run:
+
+```powershell
+python -m pip install -r requirements.txt
+python -m uvicorn RL_model.src.backend.main:app --reload
+```
+
+Open **http://127.0.0.1:8000**. Use **Start learning** to watch the agent,
+**Step once** to advance manually, and **Reset** to start a new run. API docs
+are available at **http://127.0.0.1:8000/docs**.
+
+See [RL_model/README.md](./RL_model/README.md) for the full walkthrough of
+Q-learning, the code files, the API, and how to operate the demo.
+
+## Guides to understand the projects
+
+The repository includes Markdown guides for understanding the models and how
+they work:
+
+- [RL_model/learning_agent_goal.md](./RL_model/learning_agent_goal.md) — the RL agent's goal and what successful learning means.
+- [RL_model/README.md](./RL_model/README.md) — a code walkthrough, Q-learning explanation, API reference, and run instructions.
+- [codebase_walkthrough.md](./codebase_walkthrough.md) — a beginner-friendly walkthrough of the sentiment-analysis project.
+- [transformers_notebook_explained.md](./transformers_notebook_explained.md) — an explanation of the transformer notebook.
+- [flexisaf_submit_2.md](./flexisaf_submit_2.md) — background and explanation of the sentiment-analysis project.
+- [codebase_audit_and_improvements.md](./codebase_audit_and_improvements.md) — notes on the codebase and improvement opportunities.
+
 ## Project map
 
 ```text
@@ -125,6 +172,12 @@ Example response:
 │       ├── model_dir/     BERT classifier definition and generated checkpoint
 │       ├── notebook_dir/  Neural bag-of-words and BERT experiments
 │       └── scripts/       Reproducible model-training script
+├── RL_model/
+│   ├── README.md           Q-learning walkthrough and run instructions
+│   ├── learning_agent_goal.md
+│   └── src/
+│       ├── backend/        Q-learning agent and FastAPI endpoints
+│       └── frontend/       Live grid dashboard (HTML, CSS, vanilla JS)
 ├── utils/                 Dataset tokenization and batch-padding helpers
 ├── codebase_audit_and_improvements.md
 ├── codebase_walkthrough.md

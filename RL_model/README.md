@@ -5,6 +5,9 @@ Q-learning agent learns to move from the lower-left corner of a grid to the
 goal, avoiding hazard cells along the way. Start the local web server, then use
 the browser controls to watch the agent explore and improve.
 
+For a brief, plain-language description of the agent's objective, see
+[learning_agent_goal.md](./learning_agent_goal.md).
+
 The learning logic uses only Python's standard library. The web service uses
 FastAPI and Uvicorn, which are already listed in the repository's
 `requirements.txt`. No GPU, pretrained model, dataset download, or external
@@ -27,8 +30,10 @@ If you already use the repository's `venv` folder, activate it with
 
 Use **Start learning** to let the agent run continuously, **Pause learning** to
 stop it, **Step once** to advance exactly one action, and **Reset** to clear its
-learned Q-table and start a fresh run. The speed slider changes the animation
-delay. The API is documented at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+learned Q-table and start a fresh run. A celebration appears the first time the
+agent reaches the goal; learning continues, and resetting allows a new
+celebration. The speed slider changes the animation delay. The API is documented
+at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
 ## The reinforcement learning loop
 

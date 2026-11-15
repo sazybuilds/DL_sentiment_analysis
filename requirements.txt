@@ -1,10 +1,13 @@
+# Sentiment model training and inference
 torch
 numpy
 datasets
 torchtext
 tqdm
 matplotlib
+transformers
+
+# FastAPI applications (sentiment analyzer and Q-learning demo)
 pydantic
 fastapi
-transformers
 uvicorn

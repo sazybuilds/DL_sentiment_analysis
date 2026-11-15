@@ -98,6 +98,19 @@ h1 span { color: var(--green); }
 .exploration-note strong { color: #e3ebe1; }
 .footer { display: flex; justify-content: space-between; padding: 22px 0 30px; color: #738073; font-size: 10px; }
 .footer a { color: #abb9a9; text-decoration: none; }
+.celebration[hidden] { display: none; }
+.celebration { position: fixed; z-index: 5; inset: 0; display: grid; place-items: center; padding: 20px; background: rgb(8 12 9 / 78%); animation: celebration-fade-in .25s ease-out; }
+.celebration::before { position: absolute; inset: 0; background-image: radial-gradient(circle, #b7f36b 0 2px, transparent 3px), radial-gradient(circle, #e99570 0 2px, transparent 3px), radial-gradient(circle, #c7f59a 0 2px, transparent 3px); background-position: 12% 18%, 83% 24%, 68% 78%; background-size: 90px 110px, 130px 150px, 170px 130px; content: ""; animation: celebration-sparkle 1.2s ease-in-out infinite alternate; }
+.celebration-card { position: relative; width: min(420px, 100%); padding: 34px 28px 28px; border: 1px solid #536a3f; border-radius: 16px; background: #1b241c; box-shadow: 0 22px 80px rgb(0 0 0 / 48%), 0 0 40px rgb(183 243 107 / 12%); text-align: center; animation: celebration-pop .35s cubic-bezier(.2, .8, .2, 1); }
+.celebration-icon { display: grid; width: 58px; height: 58px; place-items: center; margin: 0 auto 18px; border-radius: 18px; background: var(--green-dark); color: var(--green); font-size: 30px; box-shadow: 0 0 28px rgb(183 243 107 / 18%); }
+.celebration-card .eyebrow { margin-bottom: 8px; }
+.celebration-card h2 { margin: 0 0 10px; font-size: 23px; letter-spacing: -.5px; }
+.celebration-card > p:not(.eyebrow) { margin: 0 0 22px; color: #a2ada3; font-size: 13px; line-height: 1.6; }
+.celebration-close { position: absolute; top: 10px; right: 12px; width: 32px; height: 32px; border: 0; border-radius: 8px; background: transparent; color: #a2ada3; font-size: 24px; }
+.celebration-close:hover { background: #293329; color: #fff; }
+@keyframes celebration-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes celebration-pop { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes celebration-sparkle { from { opacity: .35; } to { opacity: .9; } }
 
 @media (max-width: 760px) {
   .page-shell { width: min(100% - 30px, 540px); }

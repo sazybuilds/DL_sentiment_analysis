@@ -7,10 +7,27 @@ const resetButton = document.querySelector("#reset-button");
 const speed = document.querySelector("#speed");
 const speedLabel = document.querySelector("#speed-label");
 const statusMessage = document.querySelector("#status-message");
+const celebration = document.querySelector("#celebration");
+const celebrationClose = document.querySelector("#celebration-close");
+const celebrationContinue = document.querySelector("#celebration-continue");
 
 const arrows = { up: "↑", right: "→", down: "↓", left: "←" };
 let running = false;
 let requestPending = false;
+let celebrationShown = false;
+let celebrationTimeout;
+
+function hideCelebration() {
+  clearTimeout(celebrationTimeout);
+  celebration.hidden = true;
+}
+
+function showCelebration() {
+  if (celebrationShown) return;
+  celebrationShown = true;
+  celebration.hidden = false;
+  celebrationTimeout = setTimeout(hideCelebration, 4000);
+}
 
 async function request(path) {
   const response = await fetch(`/api/${path}`, {
@@ -91,9 +108,12 @@ function render(state) {
     rewards.length ? `${rewards.length} recent` : "No episodes yet";
 
   if (state.terminal) {
-    statusMessage.textContent = state.reward > 0
-      ? "Goal reached! The agent received a positive reward."
-      : "Hazard hit. The agent received a penalty and will try again.";
+    if (state.reward > 0) {
+      statusMessage.textContent = "Goal reached! The agent received a positive reward.";
+      showCelebration();
+    } else {
+      statusMessage.textContent = "Hazard hit. The agent received a penalty and will try again.";
+    }
   } else if (state.action) {
     statusMessage.textContent =
       `Moved ${state.action}. ${state.reward < 0 ? "Small step cost." : ""}`;
@@ -135,11 +155,15 @@ runButton.addEventListener("click", () => {
   if (running) void runLoop();
 });
 stepButton.addEventListener("click", oneStep);
+celebrationClose.addEventListener("click", hideCelebration);
+celebrationContinue.addEventListener("click", hideCelebration);
 
 resetButton.addEventListener("click", async () => {
   setRunning(false);
   try {
     render(await request("reset"));
+    hideCelebration();
+    celebrationShown = false;
     statusMessage.textContent = "World and Q-table reset. Ready to learn.";
   } catch (error) {
     statusMessage.textContent = `Could not reset: ${error.message}`;

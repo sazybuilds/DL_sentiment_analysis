@@ -12,6 +12,16 @@
     <script src="/assets/app.js" defer></script>
   </head>
   <body>
+    <div id="celebration" class="celebration" role="status" aria-live="polite" aria-labelledby="celebration-title" hidden>
+      <div class="celebration-card">
+        <button id="celebration-close" class="celebration-close" type="button" aria-label="Close celebration">×</button>
+        <span class="celebration-icon" aria-hidden="true">★</span>
+        <p class="eyebrow">First success</p>
+        <h2 id="celebration-title">The agent reached the goal!</h2>
+        <p>Your agent found its way across the grid. Learning will continue.</p>
+        <button id="celebration-continue" class="button button-primary" type="button">Keep learning</button>
+      </div>
+    </div>
     <main class="page-shell">
       <header class="topbar">
         <a class="brand" href="/" aria-label="Grid World home">
